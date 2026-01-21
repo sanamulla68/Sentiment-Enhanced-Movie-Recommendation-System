@@ -5,8 +5,11 @@ import time
 import os
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+from dotenv import load_dotenv
 
-API_KEY = '43daab77ad55185339fd0bfdfe6e3f7c'  # 🔑 Replace this with your TMDB key
+load_dotenv()
+API_KEY = os.getenv("API_KEY")
+
 SEARCH_URL = "https://api.themoviedb.org/3/search/movie"
 DETAILS_URL = "https://api.themoviedb.org/3/movie/{}"  # movie_id goes here
 
@@ -30,7 +33,11 @@ def get_genres(title):
             movie = search_resp['results'][0]
             movie_id = movie['id']
 
-            detail_resp = session.get(DETAILS_URL.format(movie_id), params={'api_key': API_KEY}, timeout=10).json()
+            detail_resp = session.get(
+                DETAILS_URL.format(movie_id),
+                params={'api_key': API_KEY},
+                timeout=10
+            ).json()
             genres = [genre['name'] for genre in detail_resp.get('genres', [])]
             return ", ".join(genres)
     except Exception as e:

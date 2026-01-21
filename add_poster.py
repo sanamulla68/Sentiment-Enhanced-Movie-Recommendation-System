@@ -5,8 +5,10 @@ import time
 import os
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
+from dotenv import load_dotenv
 
-API_KEY = '43daab77ad55185339fd0bfdfe6e3f7c'  # 🔐 Replace with your TMDB API key
+load_dotenv()
+API_KEY = os.getenv("API_KEY") # 🔐 Replace with your TMDB API key
 SEARCH_URL = "https://api.themoviedb.org/3/search/movie"
 INPUT_CSV = 'data/Movies_dataset.csv'
 OUTPUT_CSV = 'data/latest_movies_with_posters.csv'
